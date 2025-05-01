@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CollectionManager.MainPage"
+             Title="Kolekcje"
+             BackgroundColor="#F5F5F5"
+             Padding="20">
+
+    <VerticalStackLayout Spacing="15">
+
+        <Label Text="Lista kolekcji:" 
+               FontAttributes="Bold" 
+               FontSize="20"
+               TextColor="#1976D2" />
+
+        <CollectionView x:Name="CollectionsView"
+                        SelectionMode="Single"
+                        SelectionChanged="OnCollectionSelected"
+                        BackgroundColor="White"
+                        HeightRequest="400">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Padding="10" Margin="5"
+                           BorderColor="#90CAF9"
+                           BackgroundColor="White"
+                           CornerRadius="10"
+                           HasShadow="True">
+                        <Label Text="{Binding Name}" 
+                               FontSize="16"
+                               TextColor="#212121" />
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <HorizontalStackLayout Spacing="10">
+
+            <Button Text="Dodaj kolekcję"
+                    BackgroundColor="#1976D2"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    CornerRadius="8"
+                    Padding="12,6"
+                    Clicked="OnAddCollectionClicked" />
+
+            <Button Text="Eksportuj kolekcję"
+                    BackgroundColor="#FFA000"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    CornerRadius="8"
+                    Padding="12,6"
+                    Clicked="OnExportCollectionClicked" />
+
+            <Button Text="Importuj kolekcję"
+                    BackgroundColor="#388E3C"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    CornerRadius="8"
+                    Padding="12,6"
+                    Clicked="OnImportCollectionClicked" />
+        </HorizontalStackLayout>
+
+    </VerticalStackLayout>
+</ContentPage>
