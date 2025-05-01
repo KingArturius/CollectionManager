@@ -14,6 +14,17 @@ public partial class MainPage : ContentPage
         BindingContext = this;
     }
 
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+
+#if DEBUG
+        string appDataPath = FileSystem.AppDataDirectory;
+        DebugPathLabel.Text = $"Ścieżka danych: {appDataPath}";
+        DebugPathLabel.IsVisible = true;
+#endif
+    }
+
     private async void OnAddCollectionClicked(object sender, EventArgs e)
     {
         string name = await DisplayPromptAsync("Nowa kolekcja", "Podaj nazwę kolekcji:");
@@ -42,7 +53,6 @@ public partial class MainPage : ContentPage
         if (e.CurrentSelection.FirstOrDefault() is Collection selected)
         {
             await Navigation.PushAsync(new CollectionDetailsPage(selected));
-
             CollectionsView.SelectedItem = null;
         }
     }
@@ -56,7 +66,6 @@ public partial class MainPage : ContentPage
         }
 
         var names = Collections.Select(c => c.Name).ToArray();
-
         string selectedName = await DisplayActionSheet("Wybierz kolekcję do eksportu:", "Anuluj", null, names);
 
         if (string.IsNullOrEmpty(selectedName) || selectedName == "Anuluj")
@@ -91,7 +100,6 @@ public partial class MainPage : ContentPage
             await DisplayAlert("Błąd", $"Nie udało się zapisać pliku: {ex.Message}", "OK");
         }
     }
-
 
     private async void OnImportCollectionClicked(object sender, EventArgs e)
     {
@@ -179,9 +187,7 @@ public partial class MainPage : ContentPage
                 }
             }
 
-            CollectionsView.ItemsSource = null;
-            CollectionsView.ItemsSource = Collections;
-
+            RefreshCollectionView();
             await DisplayAlert("Sukces", "Import zakończony.", "OK");
         }
         catch (Exception ex)
@@ -189,5 +195,4 @@ public partial class MainPage : ContentPage
             await DisplayAlert("Błąd", $"Nie udało się wczytać pliku: {ex.Message}", "OK");
         }
     }
-
 }
